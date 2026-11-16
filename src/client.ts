@@ -15,7 +15,7 @@ export class UnifiedCDNClient {
         const apiUrl = this.options?.apiUrl || process.env.UNIFIED_CDN_API_URL;
         const baseUrl = this.options?.baseUrl || "/api";
         if (!apiUrl) {
-            throw new Error("API key API URL are required");
+            throw new Error("API key and API URL are required");
         }
         this.apiUrl = apiUrl;
         this.baseUrl = baseUrl;

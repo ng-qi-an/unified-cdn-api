@@ -23,7 +23,8 @@ export function toGrantCodeHandler(unifiedCDN: UnifiedCDN, options: GrantCodeHan
             return await unifiedCDN.requestData("/codes/generate", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${unifiedCDN.apiKey}`
                 },
                 body: JSON.stringify({
                     action,

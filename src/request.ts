@@ -44,7 +44,7 @@ export async function request(api: {apiUrl: string, apiKey?: string, code: strin
 
 export async function apiRequest(api: FlexibleAPI, path: string, options: RequestInit = {}) {
     const apiUrl = api?.apiUrl || process.env.UNIFIED_CDN_API_URL;
-    const apiKey = api?.apiUrl || process.env.UNIFIED_CDN_API_KEY;
+    const apiKey = api?.apiKey || process.env.UNIFIED_CDN_API_KEY;
     const code = api?.code;
     if (!apiUrl || !apiKey) {
         throw new InvalidConfigurationError('API URL or API Key is not provided. Please provide them either in the constructor or as environment variables.');
