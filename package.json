@@ -1,0 +1,47 @@
+{
+  "name": "unified-cdn-api",
+  "version": "1.0.0",
+  "description": "API client for UnifiedCDN.",
+  "keywords": [
+    "cdn",
+    "api",
+    "client",
+    "typescript",
+    "upload",
+    "files"
+  ],
+  "license": "ISC",
+  "author": "ng-qi-an",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "default": "./dist/errors.js"
+    },
+    "./classes": {
+      "types": "./dist/classes.d.ts",
+      "default": "./dist/classes.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
