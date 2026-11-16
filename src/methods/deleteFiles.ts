@@ -1,7 +1,8 @@
-import type { UnifiedCDN } from "../index.js";
+import { apiRequestData } from "../request.js";
+import type { FlexibleAPI } from "../types.js";
 
-export default async function deleteFiles(ucdn: UnifiedCDN, fileIds: string[]) {
-    const data = await ucdn.requestData(`/files/delete`, {
+export default async function deleteFiles(fileIds: string[], api: FlexibleAPI) {
+    const data = await apiRequestData(api, `/files/delete`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"

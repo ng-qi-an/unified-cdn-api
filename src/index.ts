@@ -1,45 +1,58 @@
+import deleteGrantCode from "./methods/deleteGrantCode.js";
 import deleteFile from "./methods/deleteFile.js";
 import deleteFiles from "./methods/deleteFiles.js";
+import generateGrantCode from "./methods/generateGrantCode.js";
 import getFileContent from "./methods/getFileContent.js";
 import getFileDetails from "./methods/getFileDetails.js";
 import getFiles from "./methods/getFiles.js";
 import renameFile from "./methods/renameFile.js";
 import uploadFiles from "./methods/uploadFiles.js";
-import { request, requestData } from "./request.js";
+import { apiRequest, apiRequestData } from "./request.js";
 
 export class UnifiedCDN {
-    private readonly apiKey: string;
+    readonly apiKey: string;
     readonly apiUrl: string;
-    constructor (private readonly options: {apiKey: string, apiUrl: string}) {
-        this.apiKey = this.options.apiKey;
-        this.apiUrl = this.options.apiUrl;
+    constructor (private readonly options?: {apiKey?: string, apiUrl?: string}) {
+        const apiKey = this.options?.apiKey || process.env.UNIFIED_CDN_API_KEY;
+        const apiUrl = this.options?.apiUrl || process.env.UNIFIED_CDN_API_URL;
+        if (!apiUrl || !apiKey) {
+            throw new Error("API key API URL are required");
+        }
+        this.apiKey = apiKey;
+        this.apiUrl = apiUrl;
     }
     async request(path: string, options: RequestInit = {}) {
-        return request(this.apiUrl, this.apiKey, path, options);
+        return apiRequest(this, path, options);
     }
     async requestData(path: string, options: RequestInit = {}) {
-        return requestData(this.apiUrl, this.apiKey, path, options);
+        return apiRequestData(this, path, options);
     }
-    async upload(files: File[]) {
-        return uploadFiles(this, files);
+    async uploadFiles(files: File[]) {
+        return uploadFiles(files, this);
     }
-    async delete(fileIds: string[]) {
-        return deleteFiles(this, fileIds);
+    async deleteFiles(fileIds: string[]) {
+        return deleteFiles(fileIds, this);
     }
-    async get(fileIds: string[]) {
-        return getFiles(this, fileIds);
+    async getFiles(fileIds: string[]) {
+        return getFiles(fileIds, this);
     }
     async getFileDetails(fileId: string) {
-        return getFileDetails(this, fileId);
+        return getFileDetails(fileId, this);
     }
     async getFileContent(fileId: string) { 
-       return getFileContent(this, fileId);
+       return getFileContent(fileId, this);
     }
     async renameFile(fileId: string, newName: string) {
-        return renameFile(this, fileId, newName);
+        return renameFile(fileId, newName, this);
     }
     async deleteFile(fileId: string) {
-        return deleteFile(this, fileId);
+        return deleteFile(fileId, this);
+    }
+    async generateGrantCode(action: string, data: Record<string, any>, expiresIn: number) {
+        return generateGrantCode(action, data, expiresIn, this);
+    }
+    async deleteGrantCode(codeId: string) {
+        return deleteGrantCode(codeId, {apiUrl: this.apiUrl, code: codeId});
     }
 }
 

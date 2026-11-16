@@ -1,9 +1,10 @@
 import { APIError, UnknownError } from "../errors.js";
-import type { UnifiedCDN } from "../index.js";
+import { apiRequest } from "../request.js";
+import type { FlexibleAPI } from "../types.js";
 
-export default async function getFileContent(ucdn: UnifiedCDN, fileId: string) {
+export default async function getFileContent(fileId: string, api: FlexibleAPI) {
     try {
-        const response = await ucdn.request(`/files/${fileId}/view`, {
+        const response = await apiRequest(api, `/files/${fileId}/view`, {
             method: "GET",
         });
         const blob = await response.blob();

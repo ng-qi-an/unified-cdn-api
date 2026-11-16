@@ -1,6 +1,6 @@
 {
   "name": "unified-cdn-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "API client for UnifiedCDN.",
   "keywords": [
     "cdn",
@@ -27,6 +27,14 @@
     "./classes": {
       "types": "./dist/classes.d.ts",
       "default": "./dist/classes.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    },
+    "./handlers/nextjs": {
+      "types": "./dist/handlers/nextjs.d.ts",
+      "default": "./dist/handlers/nextjs.js"
     }
   },
   "files": [

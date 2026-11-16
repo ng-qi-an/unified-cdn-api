@@ -1,7 +1,9 @@
-import type { UnifiedCDN } from "../index.js";
+import { apiRequestData } from "../request.js";
+import type { FlexibleAPI } from "../types.js";
 
-export default async function renameFile(ucdn: UnifiedCDN, fileId: string, newName: string) {
-    const data = await ucdn.requestData(`/files/${fileId}/rename`, {
+
+export default async function renameFile(fileId: string, newName: string, api: FlexibleAPI) {
+    const data = await apiRequestData(api, `/files/${fileId}/rename`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"

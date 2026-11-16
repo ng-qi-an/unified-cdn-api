@@ -1,8 +1,8 @@
-import type { UnifiedCDN } from "../index.js";
-import type { RawUnifiedCDNFile } from "../types.js";
+import { apiRequestData } from "../request.js";
+import type { FlexibleAPI, RawUnifiedCDNFile } from "../types.js";
 
-export default async function getFileDetails(ucdn: UnifiedCDN, fileId: string) {
-    const data = await ucdn.requestData(`/files/${fileId}/get`, {
+export default async function getFileDetails(fileId: string, api: FlexibleAPI) {
+    const data = await apiRequestData(api, `/files/${fileId}/get`, {
         method: "GET",
     })
     return data as RawUnifiedCDNFile;
