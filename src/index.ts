@@ -8,13 +8,14 @@ import getFiles from "./methods/getFiles.js";
 import renameFile from "./methods/renameFile.js";
 import uploadFiles from "./methods/uploadFiles.js";
 import { apiRequest, apiRequestData } from "./request.js";
+import getAllFiles from "./methods/getAllFiles.js";
 
 export class UnifiedCDN {
     readonly apiKey: string;
     readonly apiUrl: string;
     constructor (private readonly options?: {apiKey?: string, apiUrl?: string}) {
         const apiKey = this.options?.apiKey || process.env.UNIFIED_CDN_API_KEY;
-        const apiUrl = this.options?.apiUrl || process.env.UNIFIED_CDN_API_URL;
+        const apiUrl = this.options?.apiUrl || process.env.UNIFIED_CDN_API_URL || process.env.NEXT_PUBLIC_UNIFIED_CDN_API_URL;
         if (!apiUrl || !apiKey) {
             throw new Error("API key API URL are required");
         }
@@ -35,6 +36,9 @@ export class UnifiedCDN {
     }
     async getFiles(fileIds: string[]) {
         return getFiles(fileIds, this);
+    }
+    async getAllFiles() {
+        return getAllFiles(this);
     }
     async getFileDetails(fileId: string) {
         return getFileDetails(fileId, this);

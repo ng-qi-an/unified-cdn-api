@@ -31,6 +31,16 @@ export class InsufficientPermissionsError extends APIError  {
     }
 }
 
+export class RateLimitedError extends APIError  {
+    readonly status_code = 429;
+    readonly retryIn: number;
+    constructor(message = "Rate limit exceeded.", retryIn: number) {
+        super(message)
+        this.name = 'RateLimitedError'
+        this.retryIn = retryIn;
+    }
+}
+
 export class InvalidConfigurationError extends APIError  {
     readonly status_code = 400
     constructor(message: string) {

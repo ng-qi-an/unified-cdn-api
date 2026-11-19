@@ -1,7 +1,7 @@
-import { APIError, InsufficientPermissionsError, InvalidConfigurationError, NotFoundError, UnauthorisedError, UnknownError } from "./errors.js";
+import { APIError, InsufficientPermissionsError, InvalidConfigurationError, NotFoundError, RateLimitedError, UnauthorisedError, UnknownError } from "./errors.js";
 import type { FlexibleAPI } from "./types.js";
 
-export async function request(api: {apiUrl: string, apiKey?: string, code: string | undefined}, path: string, options: RequestInit = {}) {
+export async function request(api: {apiUrl: string, apiKey: string | undefined, code: string | undefined}, path: string, options: RequestInit = {}) {
     try {
         const response = await fetch(`${api.apiUrl}/api${path}`, {
             ...options,
@@ -22,6 +22,9 @@ export async function request(api: {apiUrl: string, apiKey?: string, code: strin
                 throw new UnauthorisedError(errorMessage);
             } else if (response.status === 403) {
                 throw new InsufficientPermissionsError(errorMessage);
+            } else if (response.status === 429){
+                console.log("Error data", errorData);
+                throw new RateLimitedError(errorMessage, (errorData as any)?.retryIn || 0);
             } else if (response.status === 404) {
                 throw new NotFoundError(errorMessage);
             } else if (response.status === 400) {
@@ -46,8 +49,8 @@ export async function apiRequest(api: FlexibleAPI, path: string, options: Reques
     const apiUrl = api?.apiUrl || process.env.UNIFIED_CDN_API_URL;
     const apiKey = api?.apiKey || process.env.UNIFIED_CDN_API_KEY;
     const code = api?.code;
-    if (!apiUrl || !apiKey) {
-        throw new InvalidConfigurationError('API URL or API Key is not provided. Please provide them either in the constructor or as environment variables.');
+    if (!apiUrl) {
+        throw new InvalidConfigurationError('API URL is not provided. Please provide it either in the constructor or as an environment variable.');
     }
     if (!code && !apiKey) {
         throw new InvalidConfigurationError('Either an API Key or a Grant Code must be provided.');

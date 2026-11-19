@@ -1,6 +1,3 @@
-import type { UnifiedCDNClient } from "./client.js";
-import type { UnifiedCDN } from "./index.js";
-
 export type FlexibleAPI = { apiUrl: string, apiKey?: string, code?: string } | undefined;
 
 export type RawUnifiedCDNFile = {
@@ -14,6 +11,17 @@ export type RawUnifiedCDNFile = {
     expiresAt: string | null,
     createdAt: string,
     updatedAt: string,
+}
+
+export type UnifiedCDNFileJSON = {
+    id: string,
+    viewUrl: string,
+    name: string,
+    contentType: string,
+    size: number,
+    expiresAt: Date | null,
+    createdAt: Date,
+    updatedAt: Date,
 }
 
 export type RawUnifiedCDNGrantCode = {
