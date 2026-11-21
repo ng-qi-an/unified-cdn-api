@@ -17,7 +17,7 @@ export class UnifiedCDNClient {
     async deleteGrantCode(codeId: string) {
         return deleteGrantCode(codeId, {apiUrl: this.apiUrl, code: codeId});
     }
-    async uploadFiles(files: File[], customRouteBody: Record<string, any> = {}): Promise<{uploads: UnifiedCDNFileJSON[], failed: string[]}> {
+    async uploadFiles(files: File[], customRouteBody: Record<string, any> = {}): Promise<{uploads: UnifiedCDNFileJSON[], failed: {filename: string, reason: string}[]}> {
         if (!this.baseUrl){
             throw new Error("Base URL is required for client upload. This should correspond to the API route of the Unified CDN handler you've attached.");
         }

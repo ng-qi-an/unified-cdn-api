@@ -7,7 +7,7 @@ export default async function uploadFiles(files: File[], api: FlexibleAPI) {
     files.forEach((file) => {
         formData.append("files", file);
     });
-    const data: {uploads: Omit<ConstructorParameters<typeof UnifiedCDNFile>[0], "viewUrl">[], failed: string[]} = await apiRequestData(api,  "/files/upload", {
+    const data: {uploads: Omit<ConstructorParameters<typeof UnifiedCDNFile>[0], "viewUrl">[], failed: {filename: string, reason: string}[]} = await apiRequestData(api,  "/files/upload", {
         method: "POST",
         body: formData
     })

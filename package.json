@@ -39,6 +39,10 @@
     "./types": {
       "types": "./dist/types.d.ts",
       "default": "./dist/types.js"
+    },
+    "./helpers": {
+      "types": "./dist/helpers/helpers.d.ts",
+      "default": "./dist/helpers/helpers.js"
     }
   },
   "files": [
