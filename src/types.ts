@@ -35,13 +35,25 @@ export type RawUnifiedCDNGrantCode = {
 }
 
 
+export type NextUploadsBeforeHook = (req: Request) => Promise<Response | void> | Response | void;
+
+export type NextUploadsDataOptions = {
+    maximumFileSize?: number,
+    maximumTotalSize?: number,
+    allowedFileTypes?: string[]
+};
+
+export type NextUploadsOptions = {
+    before?: NextUploadsBeforeHook,
+    data?: NextUploadsDataOptions,
+    calculateFileCount?: (fileCount: number) => number,
+    expiresIn?: number
+};
+
+export type NextClientOptions = {
+    uploads?: NextUploadsOptions
+};
+
 export type NextUnifiedCDNHandlerOptions = {
-    client?: {
-        uploads?: {
-            before?: (req: Request) => Promise<Response | void> | Response | void,
-            data?: {maximumFileSize?: number, maximumTotalSize?: number, allowedFileTypes?: string[]},
-            calculateFileCount?: (fileCount: number) => number,
-            expiresIn?: number
-        }
-    }
+    client?: NextClientOptions
 }
