@@ -33,3 +33,15 @@ export type RawUnifiedCDNGrantCode = {
     expiresAt: string,
     createdAt: string,
 }
+
+
+export type NextUnifiedCDNHandlerOptions = {
+    client?: {
+        uploads?: {
+            before?: (req: Request) => Promise<Response | void> | Response | void,
+            data?: {maximumFileSize?: number, maximumTotalSize?: number, allowedFileTypes?: string[]},
+            calculateFileCount?: (fileCount: number) => number,
+            expiresIn?: number
+        }
+    }
+}

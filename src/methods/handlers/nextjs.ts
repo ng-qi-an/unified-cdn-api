@@ -1,17 +1,8 @@
-import { APIError, InvalidConfigurationError } from "../../errors.js";
+import { APIError } from "../../errors.js";
 import type { UnifiedCDN } from "../../index.js";
+import type { NextUnifiedCDNHandlerOptions } from "../../types.js";
 import generateGrantCode from "../generateGrantCode.js";
 
-type NextUnifiedCDNHandlerOptions = {
-    client?: {
-        uploads?: {
-            before?: (req: Request) => Promise<Response | void> | Response | void,
-            data?: {maximumFileSize?: number, maximumTotalSize?: number, allowedFileTypes?: string[]},
-            calculateFileCount?: (fileCount: number) => number,
-            expiresIn?: number
-        }
-    }
-}
 export function toNextHandler(unifiedCDN: UnifiedCDN, options: NextUnifiedCDNHandlerOptions): (req: Request, {params}: {params: Promise<{all: string[]}>})=> Promise<Response> {
     return async (req: Request, {params}: {params: Promise<{all: string[]}>}) => {
         const { all } = await params;
